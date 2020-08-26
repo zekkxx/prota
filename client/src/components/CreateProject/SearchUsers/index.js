@@ -26,7 +26,13 @@ export default class SearchUsers extends Component {
   handleInput = field => event => {
     const { value } = event.target;
     if (value === "") return this.setState({ users: [], userQuery: "" });
-    API.getUsersFuzzy(value).then(users => this.setState({ users, userQuery: value }));
+    if (this.validateUsername(value)) return API.getUsersFuzzy(value).then(users => this.setState({ users, userQuery: value }));
+    else return this.setState({ users: [], userQuery: this.state.userQuery});
+  };
+
+  validateUsername = input => {
+    if(input.startsWith("-") || input.match(/[^a-zA-Z0-9-]/)) return false;
+    else return true;
   };
 
   render() {
