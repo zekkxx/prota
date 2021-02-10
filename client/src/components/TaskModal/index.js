@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import * as STATUS from '../../helpers';
 
 import './style.css'
-import unassignedAvatarImg from '../../../assets/img/unassigned-avatar.png';
+import unassignedAvatarImg from '../../assets/img/unassigned-avatar.png';
 
 
 // const status = [STATUS.OPEN, STATUS.IN_PROGRESS, STATUS.CLOSED]
