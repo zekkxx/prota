@@ -3,7 +3,7 @@ A project management tool for GitHub developers - invite collaborators, develop 
 
 **Created**: `2019 June 09`
 Deployed at: https://prota.herokuapp.com/  
-Repository: https://github.com/adj-dev/prota  
+Repository: https://github.com/zekkxx/prota  
 
 # Development:
 ## Project Team:
@@ -36,11 +36,16 @@ __mongoose, axios, cookie-parser, and passport__.
 For a full list of dependencies reference the _package.json_ file(s) included in the project.
 
 ## Project Installation:
-If hosting this application or trying to run it locally, you will need __MongoDB__ installed on your machine and will need to be running `mongod` on a terminal. Then, in a new terminal, you will need to run `npm run start` at the top level of the project where `server.js` lives.  
+If hosting this application or trying to run it locally please follow these steps after cloning from our repository.
+1. You will need __MongoDB__ installed on your machine and will need to be running `mongod` on a terminal.
 ```
 mongod
 ```
-
+2. Ensure that you have a `.env` file prepared on the root directory of the Prota clone, and include the following fields:
+    * GITHUB_CLIENT_ID (From Github)
+    * GITHUB_CLIENT_SECRET (From Github)
+    * SESSION_SECRET (Your own creation)
+3. Then, in a new terminal, you will need to run `npm run start` from the root directory of your Prota clone.  
 ```
 npm run start
 ```
@@ -66,9 +71,10 @@ In order to use this application, you will need to visit the deploy link referen
 
 **Assigning a user to task**: In order to assign a user to a task, you will need to click on the users icon in the pop-up modal when creating or editing a task. In order to unassign them, simply click on their icon from the same selection list.
 
-# Future Development
-**Project CRUD**: Currently Projects can be created and read, but we would like to include update and delete functionality to our project page.
+### Future Developments
 
-**Analytics**: We would like to add analytics for all current collections in our database and provide those analytics to the user in the form of graphs and charts.
+**Project CRUD**: Currently Projects can be created and read, but not updated or deleted. This is in our list of things to implement with our next set of releases.
 
-**Fuzzy Search Updates**: We would like to include searches to the Github user database when typing names so that the user isn't reliant upon knowing another users Github username perfectly in the event they aren't on Prota. In addition, we would like to add debouncing to our search in order to improve the search experience and reduce searches/calls in the database.
+**Analytics**: We plan to add analytics for all current collections in our database and provide those analytics to the user in the form of graphs and charts.
+
+**Fuzzy Search Updates**: While we have included searches to our database of users using a fuzzy search we haven't done the same yet for the Github user database so that the user isn't reliant upon knowing another users Github username perfectly in the event they aren't on Prota. So while doing that we also plan to add debouncing to our search in order to improve the search experience and reduce searches/calls in the database.
