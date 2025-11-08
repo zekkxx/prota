@@ -10,7 +10,7 @@ const userController = require('./controllers/userController');
 //connect to MongodDB
 const MONGODB_URI = process.env.MONGODB_URI
   || "mongodb://localhost/sitedb";
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(MONGODB_URI);
 
 let session = require("express-session")({
   secret: process.env.SESSION_SECRET,
@@ -69,8 +69,9 @@ app.use("/util", require("./routes/utilRoutes"));
 
 // Send every other request to the React app
 // Define any API routes before this runs
-app.get("*", (req, res) => {
+app.get(/./, (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
 app.listen(PORT);
+        
