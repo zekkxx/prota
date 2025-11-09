@@ -1,13 +1,14 @@
 import "./style.css";
 
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { useRef, useState } from "react";
 
 import API from "../../utils/API";
 import AddedUsers from "./AddedUsers";
 import SearchUsers from "./SearchUsers";
-import { useState } from "react";
 
 const CreateProject = (props) => {
+  const nodeRef = useRef(null);
   const [name, setName] = useState();
   const [created_by, setCreatedBy] = useState();
   const [owners, setOwners] = useState();
@@ -113,12 +114,14 @@ const CreateProject = (props) => {
       <TransitionGroup>
         <CSSTransition
           key={1}
+          nodeRef={nodeRef}
           classNames="modal-animation"
           appear={true}
           timeout={{ appear: 500, enter: 500, exit: 300 }}
         >
         <div
           key="1"
+          ref={nodeRef}
           className="modal-backdrop"
           onClick={props.toggleCreateProjectDialog}
         >

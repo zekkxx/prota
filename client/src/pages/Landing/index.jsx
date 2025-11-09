@@ -10,8 +10,10 @@ import ProjectTasks from "../../assets/img/projects-tasks.png";
 import SprintsTasks from "../../assets/img/sprints-tasks.png";
 import TeamCard from "./TeamCard";
 import logo from "../../assets/img/logo.png";
+import { useRef } from "react";
 
 const Landing = () => {
+  const nodeRef = useRef(null);
   const scrollTo = (section) => {
     let to = document.getElementById(section).offsetTop;
     window.scrollTo({
@@ -38,12 +40,13 @@ const Landing = () => {
         <Auth />
         <TransitionGroup>
           <CSSTransition
-            key={2}
+            key={1}
+            nodeRef={nodeRef}
             classNames="about-button-animation"
             appear={true}
             timeout={{ appear: 500 }}
           >
-          <div key={1} className="about-button" onClick={() => scrollTo("about")}>
+          <div ref={nodeRef} key={1} className="about-button" onClick={() => scrollTo("about")}>
             More Info
             <FontAwesomeIcon icon={faArrowDown} />
           </div>
