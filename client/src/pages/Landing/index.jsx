@@ -1,12 +1,12 @@
 import "./style.css";
 
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 import Auth from "../../components/Auth";
 import CreateNewProject from "../../assets/img/create-newproject.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ProjectTasks from "../../assets/img/projects-tasks.png";
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import SprintsTasks from "../../assets/img/sprints-tasks.png";
 import TeamCard from "./TeamCard";
 import logo from "../../assets/img/logo.png";
@@ -36,18 +36,19 @@ const Landing = () => {
           </span>
         </div>
         <Auth />
-        <ReactCSSTransitionGroup
-          transitionName="about-button-animation"
-          transitionAppear={true}
-          transitionAppearTimeout={500}
-          transitionEnter={false}
-          transitionLeave={false}
-        >
+        <TransitionGroup>
+          <CSSTransition
+            key={2}
+            classNames="about-button-animation"
+            appear={true}
+            timeout={{ appear: 500 }}
+          >
           <div key={1} className="about-button" onClick={() => scrollTo("about")}>
             More Info
             <FontAwesomeIcon icon={faArrowDown} />
           </div>
-        </ReactCSSTransitionGroup>
+          </CSSTransition>
+        </TransitionGroup>
       </section>
       <section className="splash-section" id="about">
         <div className="about-content-container">

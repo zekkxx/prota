@@ -1,8 +1,9 @@
 import "./style.css";
 
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+
 import API from "../../utils/API";
 import AddedUsers from "./AddedUsers";
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import SearchUsers from "./SearchUsers";
 import { useState } from "react";
 
@@ -109,13 +110,13 @@ const CreateProject = (props) => {
 
   return (
     <div>
-      <ReactCSSTransitionGroup
-        transitionName="modal"
-        transitionAppear={true}
-        transitionAppearTimeout={500}
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={300}
-      >
+      <TransitionGroup>
+        <CSSTransition
+          key={1}
+          classNames="modal-animation"
+          appear={true}
+          timeout={{ appear: 500, enter: 500, exit: 300 }}
+        >
         <div
           key="1"
           className="modal-backdrop"
@@ -171,7 +172,8 @@ const CreateProject = (props) => {
 
           </div>
         </div>
-      </ReactCSSTransitionGroup>
+        </CSSTransition>
+      </TransitionGroup>
     </div>
   );
 }

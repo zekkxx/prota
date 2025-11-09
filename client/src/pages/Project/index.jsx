@@ -1,6 +1,6 @@
-import { ALL, OPEN } from "../../helpers";
 import { useEffect, useState } from "react";
 
+import { ALL } from "../../helpers";
 import API from "../../utils/API";
 import AddSprintModal from "../../components/AddSprintModal";
 import NavBar from "../../components/NavBar";
