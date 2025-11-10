@@ -5,6 +5,12 @@ import ProfileCard from "../ProfileCard";
 import logo from "../../assets/img/logo.png";
 import { useState } from "react";
 
+// interface NavBarProps {
+//   displayName: String;
+//   avatarUrl: String;
+//   style?: Object;
+// }
+
 const NavBar = ({ displayName, avatarUrl, style }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const handleLogout = () => {

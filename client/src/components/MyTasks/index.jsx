@@ -5,6 +5,12 @@ import MyProjectPicker from "./MyProjectPicker";
 import MyTaskList from "./MyTasksList";
 import MyTaskStatusPicker from "./MyTaskStatusPicker";
 
+// interface MyTasksProps {
+//   projects: Project[];
+//   handleChangeStatus: (taskId: String, status: String) => void;
+//   tasks: Task[];
+// }
+
 const MyTasks = ({ projects, handleChangeStatus, tasks }) => {
   const projectList = [{ _id: ALL, name: "all" }, ...projects];
   const [selectedProject, setSelectedProject] = useState(ALL);

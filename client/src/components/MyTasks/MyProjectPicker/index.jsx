@@ -3,6 +3,11 @@ import "./style.css";
 import { ALL } from "../../../helpers";
 import { useState } from "react";
 
+// interface MyProjectPickerProps {
+//   projects: Project[];
+//   handleSelectProject: (projectId: String) => void;
+// }
+
 const MyProjectPicker = ({ projects, handleSelectProject }) => {
   const [selectedProject, setSelectedProject] = useState(ALL);
   const selectProject = id => {

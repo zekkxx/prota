@@ -9,6 +9,12 @@ const displayValues = {
 };
 const statuses = [OPEN, IN_PROGRESS, DONE];
 
+// interface StatusDropdownProps {
+//   selectedStatus: String;
+//   taskId: String;
+//   handleChangeStatus: (taskId: String, status: String) => void;
+// }
+
 const StatusDropdown = ({
   selectedStatus,
   taskId,

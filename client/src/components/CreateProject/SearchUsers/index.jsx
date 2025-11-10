@@ -4,20 +4,27 @@ import API from "../../../utils/API";
 import FuzzyList from "./FuzzyList";
 import { useState } from "react";
 
-const SearchUsers = (props) => {
-  const [users, setUsers] = useState([]);
+// interface SearchUsersProps {
+//   type: String;
+//   users: User[];
+//   handleAddUser: (user: User) => void;
+//   handleInviteUser: (username: String) => void;
+// }
+
+const SearchUsers = ({ type, users, handleAddUser, handleInviteUser }) => {
+  const [localUsers, setLocalUsers] = useState([]);
   const [userQuery, setUserQuery] = useState("");
 
   const handleSelectUser = (user) => {
-    props.handleAddUser(user);
-    if (!props.users.includes(user)) {
+    handleAddUser(user);
+    if (!users.includes(user)) {
       setUsers([]);
       setUserQuery("");
     }
   };
 
   const inviteUser = (username) => {
-    props.handleInviteUser(username);
+    handleInviteUser(username);
     setUsers([]);
     setUserQuery("");
   };
@@ -30,8 +37,8 @@ const SearchUsers = (props) => {
       return;
     }
     if (validateUsername(value)) {
-      API.getUsersFuzzy(value).then((users) => {
-        setUsers(users);
+      API.getUsersFuzzy(value).then((tempUsers) => {
+        setUsers(tempUsers);
         setUserQuery(value);
       });
     } else {
@@ -50,12 +57,12 @@ const SearchUsers = (props) => {
     <>
       <input
         // className="search-contributors-input"
-        placeholder={`Search for ${props.type}`}
+        placeholder={`Search for ${type}`}
         value={userQuery}
         onChange={handleInput} />
       <FuzzyList
         newUser={userQuery}
-        users={users}
+        users={localUsers}
         handleInviteUser={inviteUser}
         handleSelectUser={handleSelectUser}
       />

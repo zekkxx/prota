@@ -2,6 +2,12 @@ import "./style.css";
 
 import deleteButtonImg from '../../../assets/img/delete-icon.jpg';
 
+// interface AddedUsersProps {
+//   users: User[];
+//   handleRemoveUser: (user: User) => void;
+//   currentUser: String;
+// }
+
 const AddedUsers = ({ users, handleRemoveUser, currentUser }) => {
   return (
     <div className="added-contributor-list-container">

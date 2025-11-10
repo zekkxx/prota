@@ -1,5 +1,12 @@
 import "./style.css";
 
+// interface FuzzyListProps {
+//   users: User[];
+//   handleSelectUser: (user: User) => void;
+//   handleInviteUser: (username: String) => void;
+//   newUser: String;
+// }
+
 const FuzzyList = ({
   users,
   handleSelectUser,

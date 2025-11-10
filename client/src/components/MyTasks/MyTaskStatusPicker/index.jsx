@@ -4,6 +4,10 @@ import { ALL, DONE, IN_PROGRESS, OPEN } from "../../../helpers";
 
 import { useState } from "react";
 
+// interface MyTaskStatusPickerProps {
+//   handleSelectStatus: (status: String) => void;
+// }
+
 const MyTaskStatusPicker = ({ handleSelectStatus }) => {
   const [status, setStatus] = useState(OPEN);
 

@@ -7,6 +7,16 @@ import { useState } from 'react'
 
 // const status = [STATUS.OPEN, STATUS.IN_PROGRESS, STATUS.CLOSED]
 
+// interface TaskModalProps {
+//   team: User[];
+//   context: String;
+//   currentUser: User;
+//   expandedTask: Task;
+//   handleModal: (e: Event) => void;
+//   handleTask: (task: { id: String; name: String; description: String; assignee: String | null }) => void;
+//   handleDeleteTask: (taskId: String) => void;
+// }
+
 const TaskModal = ({ handleModal, team, currentUser, expandedTask, handleTask, context, handleDeleteTask }) => {
   const [taskName, setTaskName] = useState(expandedTask ? expandedTask.name : '')
   const [taskDescription, setTaskDescription] = useState(expandedTask ? expandedTask.description : '')

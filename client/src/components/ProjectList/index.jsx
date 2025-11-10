@@ -3,6 +3,11 @@ import "./style.css";
 import ProjectListItem from "./ProjectListItem";
 import myImage from '../../assets/img/add.png';
 
+// interface ProjectListProps {
+//   projects: Project[];
+//   toggleCreateProjectDialog: () => void;
+// }
+
 const ProjectList = ({ projects, toggleCreateProjectDialog }) => {
   return (
     <div className="wrapper">

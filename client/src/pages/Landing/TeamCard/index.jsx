@@ -1,5 +1,11 @@
 import "./style.css";
 
+// interface TeamCardProps {
+//   imageUrl: string;
+//   name: string;
+//   githubUrl: string;
+// }
+
 const TeamCard = ({ imageUrl, name, githubUrl }) => {
   return (
     <div className="team-card">

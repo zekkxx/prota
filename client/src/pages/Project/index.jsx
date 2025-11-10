@@ -12,22 +12,22 @@ import TaskModal from "../../components/TaskModal";
 
 const Project = () => {
   const { id } = useParams();
-  const [user, setUser] = useState();
-  const [team, setTeam] = useState();
-  const [project, setProject] = useState();
-  const [sprints, setSprints] = useState();
-  const [currentSprint, setCurrentSprint] = useState();
-  const [viewedSprint, setViewedSprint] = useState();
-  const [viewingSprint, setViewingSprint] = useState();
-  const [addingSprint, setAddingSprint] = useState();
-  const [selectedTasks, setSelectedTasks] = useState();
-  const [expandedTask, setExpandedTask] = useState();
-  const [viewingTask, setViewingTask] = useState();
-  const [showTaskModal, setShowTaskModal] = useState();
-  const [isLoaded, setIsLoaded] = useState();
-  const [context, setContext] = useState();
-  const [trackedStatus, setTrackedStatus] = useState();
-  const [blur, setBlur] = useState();
+  const [user, setUser] = useState({});
+  const [team, setTeam] = useState([]);
+  const [project, setProject] = useState({});
+  const [sprints, setSprints] = useState([]);
+  const [currentSprint, setCurrentSprint] = useState([]);
+  const [viewedSprint, setViewedSprint] = useState({});
+  const [viewingSprint, setViewingSprint] = useState(false);
+  const [addingSprint, setAddingSprint] = useState(false);
+  const [selectedTasks, setSelectedTasks] = useState([]);
+  const [expandedTask, setExpandedTask] = useState({});
+  const [viewingTask, setViewingTask] = useState(false);
+  // const [showTaskModal, setShowTaskModal] = useState();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [context, setContext] = useState("");
+  const [trackedStatus, setTrackedStatus] = useState("");
+  const [blur, setBlur] = useState(false);
 
   // Fetches the user object and project object when component first renders
   useEffect(() => {

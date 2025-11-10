@@ -5,6 +5,13 @@ import { ALL, IN_PROGRESS, OPEN } from '../../../helpers';
 import StatusDropdown from '../../StatusDropdown'
 import unassignedAvatarImg from '../../../assets/img/unassigned-avatar.png';
 
+// interface TaskListProps {
+//   tasks: Task[];
+//   handleTaskModal: (e: Event, task: Task) => void;
+//   status: String;
+//   handleChangeStatus: (taskId: String, status: String) => void;
+// }
+
 const TaskList = ({ tasks, handleTaskModal, status, handleChangeStatus }) => {
 
   // // click handler for assigning a task

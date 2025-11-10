@@ -7,6 +7,14 @@ import { useEffect, useState } from 'react'
 import TaskList from './TaskList';
 import addButtonImg from '../../assets/img/add.png';
 
+// interface TaskListSelectorProps {
+//   tasks: Task[];
+//   selectedTasks: Task[];
+//   trackStatus: (status: String) => void;
+//   handleTaskModal: () => void;
+//   handleChangeStatus: (taskId: String, status: String) => void;
+// }
+
 const TaskListSelector = ({ tasks, selectedTasks, trackStatus, handleTaskModal, handleChangeStatus }) => {
   const [allTasks, setAllTasks] = useState(tasks);
   const [selectTasks, setSelectTasks] = useState([]);

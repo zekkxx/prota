@@ -8,6 +8,15 @@ import optionsImg from '../../assets/img/options.png';
 
 // import * as STATUS from '../../helpers';
 
+// interface SprintListProps {
+//   sprints: Sprint[];
+//   selectSprint: (sprintId: String) => void;
+//   openAddSprintModal: () => void;
+//   openSprintModal: (sprint: Sprint) => void;
+//   currentSprintId: String;
+//   handleChangeStatus: (sprintId: String, status: String) => void;
+// }
+
 const SprintList = ({ sprints, selectSprint, openAddSprintModal, openSprintModal, currentSprintId, handleChangeStatus }) => {
 
   // click handler for when a user selects a sprint

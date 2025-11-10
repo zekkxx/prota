@@ -4,6 +4,12 @@ import { ALL, IN_PROGRESS, OPEN } from "../../../helpers";
 
 import StatusDropdown from "../../StatusDropdown";
 
+// interface MyTaskListProps {
+//   tasks: Task[];
+//   status: String;
+//   handleChangeStatus: (taskId: String, status: String) => void;
+// }
+
 const MyTaskList = ({ tasks, status, handleChangeStatus }) => {
   return (
     <div className="mytasks-content">

@@ -7,7 +7,11 @@ import API from "../../utils/API";
 import AddedUsers from "./AddedUsers";
 import SearchUsers from "./SearchUsers";
 
-const CreateProject = (props) => {
+// interface CreateProjectProps {
+//   toggleCreateProjectDialog: () => void;
+// }
+
+const CreateProject = ({ toggleCreateProjectDialog }) => {
   const nodeRef = useRef(null);
   const [name, setName] = useState();
   const [created_by, setCreatedBy] = useState();
@@ -123,7 +127,7 @@ const CreateProject = (props) => {
           key="1"
           ref={nodeRef}
           className="modal-backdrop"
-          onClick={props.toggleCreateProjectDialog}
+          onClick={toggleCreateProjectDialog}
         >
           <div className="modal">
             <div className="modal-header">Create a New Project</div>

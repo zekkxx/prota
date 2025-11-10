@@ -1,5 +1,9 @@
 import './styles.css'
 
+// interface ProjectCardProps {
+//   project: Project;
+// }
+
 const ProjectCard = ({ project }) => {
   return (
     <div className="wrapper">

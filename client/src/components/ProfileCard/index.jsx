@@ -1,5 +1,13 @@
 import "./style.css";
 
+// interface ProfileCardProps {
+//   avatarUrl: String;
+//   displayName: String;
+//   showDropdown: Boolean;
+//   handleMouseHover: () => void;
+//   handleLogout: () => void;
+// }
+
 const ProfileCard = ({
   avatarUrl,
   displayName,

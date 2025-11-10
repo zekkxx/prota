@@ -2,6 +2,10 @@ import "./style.css";
 
 import { Link } from "react-router-dom";
 
+// interface MyProjectsCardProps {
+//   project: Project;
+// }
+
 const MyProjectsCard = ({ project }) => {
   return (
     <Link to={`/project/${project._id}`}>

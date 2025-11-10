@@ -1,5 +1,12 @@
 import { useState } from 'react'
 
+// interface SprintModalProps {
+//   sprint: Sprint;
+//   handleModal: (e: Event) => void;
+//   handleSprint: (sprint: { id: String; name: String }) => void;
+//   handleDeleteSprint: (sprintId: String) => void;
+// }
+
 const SprintModal = ({ sprint, handleModal, handleSprint, handleDeleteSprint }) => {
 
   const [sprintName, setSprintName] = useState(sprint ? sprint.name : '');
