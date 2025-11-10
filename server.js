@@ -8,7 +8,7 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 const userController = require('./controllers/userController');
 
-app.use(cors({ origin: 'http://localhost:3000' }))
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 //connect to MongodDB
 const MONGODB_URI = process.env.MONGODB_URI

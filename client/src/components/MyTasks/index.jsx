@@ -31,7 +31,7 @@ const MyTasks = ({ projects, handleChangeStatus, tasks }) => {
   const getSelectedTasks = (status, projectId) => {
     let selectedTasks = [];
     if (projectId === ALL) {
-      selectedTasks = tasks.filter(task => {
+      selectedTasks = [tasks].filter(task => {
         if (status === ALL) {
           return true;
         }

@@ -15,16 +15,18 @@ const Profile = () => {
     const [creatingProject, setCreatingProject] = useState();
     const [blur, setBlur] = useState();
 
-  useEffect(async () => {
-    if (!user) {
-      let tempUser = await API.getUser()
-      if (tempUser.projects) {
-        tempUser.projects = tempUser.projects.reverse();
+  useEffect(() => {
+    (async () => {
+      if (!user) {
+        let tempUser = await API.getUser()
+        if (tempUser.projects) {
+          tempUser.projects = tempUser.projects.reverse();
+        }
+        let tempTasks = await API.getTasksByUser(tempUser._id)
+        setUser(tempUser);
+        setTasks(tempTasks);
       }
-      let tempTasks = await API.getTasksByUser(tempUser._id)
-      setUser(tempUser);
-      setTasks(tempTasks);
-    }
+    })();
   }, [user]);
 
   const handleChangeStatus = (taskId, status) => {
@@ -46,7 +48,7 @@ const Profile = () => {
     if (targetElement.closest(".modal")) return;
     
     setCreatingProject(!creatingProject);
-    setBlur(!prevState.blur);
+    setBlur(!blur);
   };
 
   return (

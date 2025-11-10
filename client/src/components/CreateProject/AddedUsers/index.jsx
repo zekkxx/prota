@@ -5,7 +5,7 @@ import deleteButtonImg from '../../../assets/img/delete-icon.jpg';
 const AddedUsers = ({ users, handleRemoveUser, currentUser }) => {
   return (
     <div className="added-contributor-list-container">
-      {users.length > 0
+      {users && users.length > 0
         ? users.map((user, i) => {
             return (
               <div className="added-contributor-container" key={i}>

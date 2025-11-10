@@ -3,11 +3,8 @@ var router = require("express").Router();
 module.exports = passport => {
   router.get("/github", passport.authenticate("github"));
 
-  router.get("/logout", function(req, res) {
-    req.logout(function(err) {
-      if (err) { return next(err); }
-      res.redirect('/');
-    });
+  router.get("/status", (req, res) => {
+    req.user ? res.json(true) : res.json(false);
   });
 
   router.get(
@@ -21,9 +18,16 @@ module.exports = passport => {
       res.redirect(redirectUrl);
     }
   );
-
-  router.get("/status", (req, res) => {
-    req.user ? res.json(true) : res.json(false);
+  
+  router.delete("/logout", (req, res) => {
+    req.logout((err) => {
+      if (err) { return next(err); }
+      let redirectUrl;
+      process.env.NODE_ENV === "production"
+        ? (redirectUrl = "/")
+        : (redirectUrl = "http://localhost:3000/");
+      res.redirect(redirectUrl);
+    });
   });
 
   return router;

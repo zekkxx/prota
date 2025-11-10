@@ -4,13 +4,14 @@ axios.defaults.baseURL = process.env.NODE_ENV === "production" ? "/" : "http://l
 
 export default {
   getUser: async () =>
-    await axios.get("/api/user").then(response => response.data),
+    await axios.get("/api/user", { withCredentials: true }).then(response => response.data),
   createUser: async (username) =>
     await axios.post(`api/users/${username}`).then(response => response.data),
   logout: async () =>
-    await axios.get("/auth/logout").then(response => response.data),
+    await axios.delete("/auth/logout").then(response => response.data).catch(err => console.log(err)),
+    // LOGOUT route has a catch to log errors, but it still redirects even on error -- look into this later
   isLoggedIn: async () =>
-    await axios.get("/auth/status").then(response => response.data),
+    await axios.get("/auth/status", { withCredentials: true }).then(response => response.data),
   getUsersFuzzy: async (username) =>
     await axios.get(`/api/user/${username}/fuzzy`).then(response => response.data),
   getProject: async (id) =>
