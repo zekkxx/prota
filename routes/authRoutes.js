@@ -4,8 +4,10 @@ module.exports = passport => {
   router.get("/github", passport.authenticate("github"));
 
   router.get("/logout", function(req, res) {
-    req.logout();
-    res.json({ success: true });
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      res.redirect('/');
+    });
   });
 
   router.get(

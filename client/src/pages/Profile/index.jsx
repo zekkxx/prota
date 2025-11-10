@@ -17,15 +17,15 @@ const Profile = () => {
 
   useEffect(async () => {
     if (!user) {
-      let user = await API.getUser().then(user => {
-        user.projects = user.projects.reverse();
-        return user;
-      });
-      let tasks = await API.getTasksByUser(user._id).then(tasks => { return tasks });
-      setUser(user);
-      setTasks(tasks);
+      let tempUser = await API.getUser()
+      if (tempUser.projects) {
+        tempUser.projects = tempUser.projects.reverse();
+      }
+      let tempTasks = await API.getTasksByUser(tempUser._id)
+      setUser(tempUser);
+      setTasks(tempTasks);
     }
-  }, []);
+  }, [user]);
 
   const handleChangeStatus = (taskId, status) => {
     API.updateTask(taskId, { status }).then(newTask => {
@@ -41,7 +41,7 @@ const Profile = () => {
     });
   };
 
-  toggleCreateProjectDialog = e => {
+  const toggleCreateProjectDialog = e => {
     let targetElement = e.target;
     if (targetElement.closest(".modal")) return;
     
@@ -73,7 +73,7 @@ const Profile = () => {
                 {user.projects ? (
                   <ProjectList
                     toggleCreateProjectDialog={toggleCreateProjectDialog}
-                    projects={[...user.projects]}
+                    projects={user.projects}
                   />
                 ) : ""}
               </div>
