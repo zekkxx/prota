@@ -18,7 +18,7 @@ const FuzzyList = ({
   //if the selected user matches a user in the added list return true
   let inputMatchesListItem = () => {
     for (let user in users) {
-      if (newUser === users[user].username) {
+      if (newUser === user.username) {
         return true;
       }
     }
@@ -27,7 +27,7 @@ const FuzzyList = ({
 
   return (
     <div className="fuzzy-list-container">
-      {users.map((user, i) => {
+      {users && users.length > 0 && [users].map((user, i) => {
         return (
           <div
             className="fuzzy-user"
@@ -40,7 +40,7 @@ const FuzzyList = ({
           </div>
         );
       })}
-      {newUser !== "" && !inputMatchesListItem() ? (
+      {newUser !== "" && !inputMatchesListItem() && (
         <div
           className="fuzzy-invite"
           onClick={() => {
@@ -49,8 +49,6 @@ const FuzzyList = ({
         >
           Invite: {newUser}
         </div>
-      ) : (
-        ""
       )}
     </div>
   );

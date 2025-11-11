@@ -18,31 +18,31 @@ const SearchUsers = ({ type, users, handleAddUser, handleInviteUser }) => {
   const handleSelectUser = (user) => {
     handleAddUser(user);
     if (!users.includes(user)) {
-      setUsers([]);
+      setLocalUsers([]);
       setUserQuery("");
     }
   };
 
   const inviteUser = (username) => {
     handleInviteUser(username);
-    setUsers([]);
+    setLocalUsers([]);
     setUserQuery("");
   };
 
   const handleInput = (e) => {
     const value = e.target.value;
     if (value === "") {
-      setUsers([]);
+      setLocalUsers([]);
       setUserQuery("");
       return;
     }
     if (validateUsername(value)) {
       API.getUsersFuzzy(value).then((tempUsers) => {
-        setUsers(tempUsers);
+        setLocalUsers(tempUsers);
         setUserQuery(value);
       });
     } else {
-      setUsers([]);
+      setLocalUsers([]);
       setUserQuery(userQuery);
     }
   };

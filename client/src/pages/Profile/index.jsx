@@ -10,7 +10,7 @@ import ProjectCard from "../../components/ProjectCard";
 import ProjectList from "../../components/ProjectList";
 
 const Profile = () => {
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState();
     const [tasks, setTasks] = useState([]);
     const [creatingProject, setCreatingProject] = useState(false);
     const [blur, setBlur] = useState(false);

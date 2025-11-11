@@ -1,7 +1,7 @@
 import "./style.css";
 
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import API from "../../utils/API";
 import AddedUsers from "./AddedUsers";
@@ -13,11 +13,18 @@ import SearchUsers from "./SearchUsers";
 
 const CreateProject = ({ toggleCreateProjectDialog }) => {
   const nodeRef = useRef(null);
-  const [name, setName] = useState();
+  const [title, setTitle] = useState("");
   const [created_by, setCreatedBy] = useState();
-  const [owners, setOwners] = useState();
-  const [contributors, setContributors] = useState();
-  const [errorMessage, setErrorMessage] = useState();
+  const [owners, setOwners] = useState([]);
+  const [contributors, setContributors] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    API.getUser().then(user => {
+      setCreatedBy(user.username);
+      setOwners([user]);
+    });
+  }, []);
 
   const handleRemoveContributor = (toRemove) => {
     let tempContributors = contributors.filter(
@@ -76,12 +83,12 @@ const CreateProject = ({ toggleCreateProjectDialog }) => {
   };
 
   const handleCreateProject = () => {
-    let owners = owners.map(owner => owner._id);
-    let contributors = contributors.map(
+    let tempOwners = owners.map(owner => owner._id);
+    let tempContributors = contributors.map(
       contributor => contributor._id
     );
 
-    if (name === "") {
+    if (title === "") {
       setErrorMessage("Please enter a project name.");
       (() => {
         setTimeout(() => {
@@ -91,7 +98,7 @@ const CreateProject = ({ toggleCreateProjectDialog }) => {
       return;
     }
 
-    if (name.length > 40) {
+    if (title.length > 40) {
       setErrorMessage("Project names must be under 40 characters.");
       (() => {
         setTimeout(() => {
@@ -101,11 +108,21 @@ const CreateProject = ({ toggleCreateProjectDialog }) => {
       return;
     }
 
+    if (!created_by) {
+      setErrorMessage("Error retrieving user data. Please try again.");
+      (() => {
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 3000);
+      })();
+      return;
+    }
+
     let newProject = {
-      name: name,
+      name: title,
       created_by: created_by,
-      owners,
-      contributors
+      owners: tempOwners,
+      contributors: tempContributors
     };
 
     API.createProject(newProject).then(project => {
@@ -137,7 +154,7 @@ const CreateProject = ({ toggleCreateProjectDialog }) => {
                 autoFocus
                 name="projectTitle"
                 placeholder="Project Title"
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
             <div className="error-message">{errorMessage}</div>

@@ -12,7 +12,10 @@ import MyTaskStatusPicker from "./MyTaskStatusPicker";
 // }
 
 const MyTasks = ({ projects, handleChangeStatus, tasks }) => {
-  const projectList = [{ _id: ALL, name: "all" }, ...projects];
+  const projectList = [{ _id: ALL, name: "all" }]
+  if (projects && projects.length > 0) {
+    projectList.push(...projects);
+  }
   const [selectedProject, setSelectedProject] = useState(ALL);
   const [selectedStatus, setSelectedStatus] = useState(OPEN);
   const [selectedTasks, setSelectedTasks] = useState([]);

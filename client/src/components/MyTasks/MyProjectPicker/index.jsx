@@ -17,8 +17,7 @@ const MyProjectPicker = ({ projects, handleSelectProject }) => {
 
   return (
     <div className="project-picker-container">
-      {projects
-        ? projects.map(project => {
+      {projects && projects.length > 0 && projects.map(project => {
             return (
               <div
                 className={`project-button ${
@@ -37,7 +36,12 @@ const MyProjectPicker = ({ projects, handleSelectProject }) => {
               </div>
             );
           })
-        : "No Projects"}
+      }
+      {!projects || projects.length === 0 && (
+        <div className="no-projects-message">
+          You are not part of any projects yet.
+        </div>
+      )}
     </div>
   );
 }

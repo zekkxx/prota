@@ -9,6 +9,7 @@ import SprintList from "../../components/SprintList";
 import SprintModal from "../../components/SprintModal";
 import TaskListSelector from "../../components/TaskListSelector";
 import TaskModal from "../../components/TaskModal";
+import { useParams } from "react-router-dom";
 
 const Project = () => {
   const { id } = useParams();
