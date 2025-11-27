@@ -24,11 +24,11 @@ const TaskList = ({ tasks, handleTaskModal, status, handleChangeStatus }) => {
     <>
       {
         tasks.length ?
-          tasks.map(task => {
+          tasks.map((task, i) => {
             return (
               <div
                 className="task-item"
-                key={task._id}
+                key={i}
                 onClick={e => handleTaskModal(e, task)}
               >
                 <div className="task-upper">

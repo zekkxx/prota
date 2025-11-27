@@ -38,9 +38,10 @@ const MyTasks = ({ projects, handleChangeStatus, tasks }) => {
 
   // will return the proper subset of a user's task based on their selected project and status
   const getSelectedTasks = (status, projectId) => {
+    if (!tasks) return [];
     let selectedTasks = [];
     if (projectId === ALL) {
-      selectedTasks = [tasks].filter(task => {
+      selectedTasks = tasks.filter(task => {
         if (status === ALL) {
           return true;
         }

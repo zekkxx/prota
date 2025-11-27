@@ -13,10 +13,10 @@ import StatusDropdown from "../../StatusDropdown";
 const MyTaskList = ({ tasks, status, handleChangeStatus }) => {
   return (
     <div className="mytasks-content">
-      {tasks.length ? (
+      {tasks && tasks.length > 0 ? (
         tasks.map((task, i) => {
           return (
-            <div className="task-item profile" key={task._id}>
+            <div className="task-item profile" key={i}>
               <div className="task-upper">
                 <span>{task.name}</span>
                 <span>
