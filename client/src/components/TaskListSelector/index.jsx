@@ -26,7 +26,7 @@ const TaskListSelector = ({ tasks, selectedTasks, trackStatus, handleTaskModal, 
   }, [tasks, selectedTasks])
 
   const userSelectsTasks = status => {
-    let selection = allTasks.filter(task => task.status === status);
+    let selection = allTasks ? allTasks.filter(task => task.status === status) : [];
     status === STATUS.ALL ? setSelectTasks(tasks) : setSelectTasks(selection);
     setStatus(status)
     trackStatus(status)

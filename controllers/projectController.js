@@ -1,6 +1,6 @@
-const db = require("../models");
+import db from "../models/index.js";
 
-assignProjectToUser = (userId, projectId) => { //puts a project into a user's projects field
+async function assignProjectToUser(userId, projectId) { //puts a project into a user's projects field
     return db.User.findOne({_id: userId})
         .then(result => { //result is an array of users, we just want the first one
             if(result.projects.indexOf(projectId) == -1){
@@ -13,18 +13,18 @@ assignProjectToUser = (userId, projectId) => { //puts a project into a user's pr
         }).catch(err => err);
 }
 
-removeProjectFromUser = (userId, projectId) => { //removes a project from a user's projects field
+async function removeProjectFromUser(userId, projectId) { //removes a project from a user's projects field
     return db.User.findOne({_id: userId})
         .then(result => { //result is an array of user, we just want the first one
-            result.projects = result.projects.filter( //returns a filtered array where
+            result.projects = result.projects && result.projects.length > 0 ? result.projects.filter( //returns a filtered array where
                 id => id != projectId //the id of the project is not the project being removed
-            );
+            ) : [];
             return db.User.updateOne({_id: userId}, result, {new: true, useFindAndModify: false})
                 .then(update => /*return*/ "Success");
         }).catch(err => err);
 }
 
-assignUserToProject = (params, userType) => { //puts a user into a project's owner or contributor fields
+async function assignUserToProject(params, userType) { //puts a user into a project's owner or contributor fields
     return db.Project.findOne({_id: params.projectId})
         .then(result => { //result is an array of projects, we just want the first one
             if(result.owners.indexOf(params.userId) != -1 || result.contributors.indexOf(params.userId) != -1){
@@ -41,27 +41,27 @@ assignUserToProject = (params, userType) => { //puts a user into a project's own
         }).catch(err => err);
 }
 
-removeUserFromProject = (params, userType) => { //removes a user from a project's owner or contributor fields
+async function removeUserFromProject(params, userType) { //removes a user from a project's owner or contributor fields
     return db.Project.findOne({_id: params.projectId})
         .then(result => { //result is an array of projects, we just want the first one
             if(userType === "owner" && result.owners.length == 1){ //if the user being removed is an owner, AND there is more than one owner
                 throw "Prota does not allow for ownerless projects.";
             } else if(userType === "owner"){
-                result.owners = result.owners.filter( //returns a filtered array where
+                result.owners = result.owners && result.owners.length > 0 ? result.owners.filter( //returns a filtered array where
                     id => id !== params.userId //the username of the User is not the User being removed
-                );
+                ) : [];
             }
             if(userType === "contributor"){ //if the user being removed is a contributor
-                result.contributors = result.contributors.filter( //returns a filtered array where
+                result.contributors = result.contributors && result.contributors.length > 0 ? result.contributors.filter( //returns a filtered array where
                     id => id !== params.userId //the username of the User is not the User being removed
-                );
+                ) : [];
             }
             return db.Project.updateOne({_id: params.projectId}, result, {new: true, useFindAndModify: false})
                 .then(update => /*return*/ "Success");
         }).catch(err => err);
 }
 
-module.exports = {
+export default {
     getAllByUser: function(userId){ //get all projects by req.user
         return db.User
             .findOne({_id: userId}).populate({path: 'projects'}) //populates all the project data in User's projects

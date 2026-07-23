@@ -1,6 +1,8 @@
-var router = require("express").Router();
+import {Router} from "express";
 
-module.exports = passport => {
+const router = Router();
+
+export default (passport) => {
   router.get("/github", passport.authenticate("github"));
 
   router.get("/status", (req, res) => {
@@ -14,7 +16,7 @@ module.exports = passport => {
       let redirectUrl;
       process.env.NODE_ENV === "production"
         ? (redirectUrl = "/")
-        : (redirectUrl = "http://localhost:3000/");
+        : (redirectUrl = "http://localhost:4173/");
       res.redirect(redirectUrl);
     }
   );
@@ -25,7 +27,7 @@ module.exports = passport => {
       let redirectUrl;
       process.env.NODE_ENV === "production"
         ? (redirectUrl = "/")
-        : (redirectUrl = "http://localhost:3000/");
+        : (redirectUrl = "http://localhost:4173/");
       res.redirect(redirectUrl);
     });
   });

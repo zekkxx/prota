@@ -27,16 +27,16 @@ const CreateProject = ({ toggleCreateProjectDialog }) => {
   }, []);
 
   const handleRemoveContributor = (toRemove) => {
-    let tempContributors = contributors.filter(
+    let tempContributors = contributors ? contributors?.filter(
       contributor => contributor.username !== toRemove.username
-    );
+    ) : [];
 
     setContributors(tempContributors);
   };
 
   const handleAddContributor = (toAdd) => {
     let contributorPresent = false;
-    let tempContributors = contributors;
+    let tempContributors = contributors ? contributors : [];
 
     for (let contributor in tempContributors) {
       if (tempContributors[contributor].username === toAdd.username) {
@@ -51,13 +51,13 @@ const CreateProject = ({ toggleCreateProjectDialog }) => {
 
   const handleRemoveOwner = (toRemove) => {
     if (toRemove.username === user.username) return;
-    let tempOwners = owners.filter(owner => owner.username !== toRemove.username);
+    let tempOwners = owners ? owners.filter(owner => owner.username !== toRemove.username) : [];
     setOwners(tempOwners);
   };
 
   const handleAddOwner = (toAdd) => {
     let ownerPresent = false;
-    let tempOwners = owners;
+    let tempOwners = owners ? owners : [];
 
     for (let owner in tempOwners) {
       if (tempOwners[owner].username === toAdd.username) {

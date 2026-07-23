@@ -1,6 +1,6 @@
-const db = require("../models");
+import db from "../models/index.js";
 
-module.exports = {
+export default {
   getAll: function() { //get all users
     return db.User.find({})
       .then(dbUsers => dbUsers)
