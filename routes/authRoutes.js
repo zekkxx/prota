@@ -11,7 +11,9 @@ export default (passport) => {
 
   router.get(
     "/github/callback",
-    passport.authenticate("github"),
+    passport.authenticate("github", (err, user) => {
+      if (!err && user) req.login(user);
+    }),
     (req, res) => {
       let redirectUrl;
       process.env.NODE_ENV === "production"
