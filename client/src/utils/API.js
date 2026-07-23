@@ -1,5 +1,6 @@
 import axios from "axios";
 
+console.log(process.env.NODE_ENV);
 axios.defaults.baseURL = process.env.NODE_ENV === "production" ? "https://prota.onrender.com" : "http://localhost:3001/";
 
 export default {
