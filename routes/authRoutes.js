@@ -18,12 +18,12 @@ export default (passport) => {
           console.error(err);
           return res.status(500).json({ error: "Login failed" });
         }
+        let redirectUrl;
+        process.env.NODE_ENV === "production"
+          ? (redirectUrl = "https://prota-2uja.onrender.com/")
+          : (redirectUrl = "http://localhost:4173/");
+        res.redirect(redirectUrl);
       });
-      let redirectUrl;
-      process.env.NODE_ENV === "production"
-        ? (redirectUrl = "https://prota-2uja.onrender.com/")
-        : (redirectUrl = "http://localhost:4173/");
-      res.redirect(redirectUrl);
     }
   );
   
