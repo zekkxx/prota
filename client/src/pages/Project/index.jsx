@@ -43,7 +43,11 @@ const Project = () => {
   // Fetches user object
   const fetchUser = async () => {
     let user = await API.getUser();
-    setUser(user);
+    if (user && user._id) {
+      setUser(user);
+    } else {
+      setUser({});
+    }
   };
 
   // Fetches the project and sets state accordingly
@@ -52,11 +56,12 @@ const Project = () => {
 
     // send user to / if unauthorized
     if (project.unauthorized) return (window.location = "/"); // This will never fire unless backend adds unauthorized property to response
-
-    const sprints = project.sprints.length ? [...project.sprints] : [];
-    const currentSprint = sprints.length ? sprints[0] : {}; // sprints.filter(sprint => sprint.status === IN_PROGRESS)
+    if (!project || !project._id) return (window.location = "/"); // This will fire if the project doesn't exist
+    
+    const sprints = project.sprints && project.sprints.length ? [...project.sprints] : [];
+    const currentSprint = sprints && sprints.length > 0 ? sprints[0] : {};
     const selectedTasks = currentSprint && currentSprint.tasks ? currentSprint.tasks.filter(task => task.status === trackedStatus) : [];
-    const team = project.contributors.concat(project.owners)
+    const team = project.contributors && project.owners ? project.contributors.concat(project.owners) : [];
 
     setProject(project);
     setSprints(sprints);
@@ -72,7 +77,7 @@ const Project = () => {
 
   // Runs when a sprint is selected in SprintList component
   const selectSprint = async (sprintId) => {
-    const tempCurrentSprint = sprints.filter(sprint => sprint._id === sprintId)[0];
+    const tempCurrentSprint = sprints && sprints.length > 0 ? sprints.filter(sprint => sprint._id === sprintId)[0] : {};
     const tempSelectedTasks = tempCurrentSprint && tempCurrentSprint.tasks ? tempCurrentSprint.tasks.filter(task =>
       trackedStatus === ALL ?
         task :
@@ -157,7 +162,7 @@ const Project = () => {
     setProject(updatedProject);
     setSprints(updatedSprints);
     setCurrentSprint(newSprint);
-    setSelectedTasks(newSprint.tasks.filter(task => trackedStatus === ALL ? task : task.status === trackedStatus));
+    setSelectedTasks([]);
     setAddingSprint(false);
     setBlur(false);
   };
@@ -185,7 +190,7 @@ const Project = () => {
 
   const editSprint = async (sprint) => {
     let updatedSprint = await API.updateSprint(sprint.id, { name: sprint.name });
-    let newSprints = [...sprints];
+    let newSprints = sprints && sprints.length > 0 ? [...sprints] : [];
     newSprints.forEach(sprint => {
       if (sprint._id === updatedSprint._id) {
         sprint.name = updatedSprint.name
@@ -200,7 +205,7 @@ const Project = () => {
   // Delete a sprint
   const deleteSprint = async (sprintId) => {
     let deletedSprint = await API.deleteSprint(sprintId);
-    let newSprints = [...sprints].filter(sprint => sprint._id !== sprintId);
+    let newSprints = sprints && sprints.length > 0 ? [...sprints].filter(sprint => sprint._id !== sprintId) : [];
     setCurrentSprint({});
     setSprints(newSprints);
     setSelectedTasks(null);
@@ -211,6 +216,7 @@ const Project = () => {
 
   // Creates a new task in the database and sets state accordingly
   const createTask = async (task) => {
+    if (!currentSprint || !currentSprint._id) return;
     let newTask = await API.createTask({
       name: task.name,
       description: task.description,
@@ -243,6 +249,7 @@ const Project = () => {
 
   // Sends an updated task object to the database and updates state accordingly
   const editTask = async (task) => {
+    if (!currentSprint || !currentSprint._id) return;
     let updatedTask = await API.updateTask(task.id, {
       name: task.name,
       description: task.description,
@@ -278,6 +285,7 @@ const Project = () => {
   }
 
   const handleChangeStatus = async (taskId, status) => {
+    if (!currentSprint || !currentSprint._id) return;
     let updatedTask = await API.updateTask(taskId, { status: status })
 
     let newCurrentSprint = currentSprint;
@@ -312,7 +320,7 @@ const Project = () => {
   const handleChangeStatusSprint = async (sprintId, status) => {
     let updatedSprint = await API.updateSprint(sprintId, { status: status })
 
-    let newSprints = [...sprints];
+    let newSprints = sprints && sprints.length > 0 ? [...sprints] : [];
     newSprints.forEach(sprint => {
       if (sprint._id === updatedSprint._id) {
         sprint.status = updatedSprint.status
@@ -326,6 +334,7 @@ const Project = () => {
 
   // Deletes a task by id
   const deleteTask = async (taskId) => {
+    if (!currentSprint || !currentSprint._id) return;
     let deletedTask = await API.deleteTask(taskId);
 
     let newCurrentSprint = currentSprint;

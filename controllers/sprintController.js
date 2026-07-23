@@ -1,6 +1,6 @@
-const db = require("../models");
+import db from "../models/index.js";
 
-assignSprintToProject = (sprintId, projectId) => { //puts a sprint into a project's sprints field
+function assignSprintToProject (sprintId, projectId) { //puts a sprint into a project's sprints field
     db.Project.findOne({ _id: projectId })
         .then(result => { //result is an array of projects, we just want the first one
             result.sprints.push(sprintId);
@@ -9,18 +9,18 @@ assignSprintToProject = (sprintId, projectId) => { //puts a sprint into a projec
         }).catch(err => err);
 }
 
-removeSprintFromProject = (sprintId, projectId) => { //removes a sprint from a project's sprints field
+function removeSprintFromProject (sprintId, projectId) { //removes a sprint from a project's sprints field
     db.Project.findOne({ _id: projectId })
         .then(result => { //results is an array of projects, we just want the first one
-            result.sprints = result.sprints.filter( //returns a filtered array where
+            result.sprints = result.sprints && result.sprints.length > 0 ? result.sprints.filter( //returns a filtered array where
                 id => id != sprintId //the id of the sprint is not the sprint being removed
-            );
+            ) : [];
             db.Project.updateOne({ _id: projectId }, result, { new: true, useFindAndModify: false })
                 .then(update => update);
         }).catch(err => err);
 }
 
-module.exports = {
+export default {
 
     getAllByProject: function (projectId) { //get all sprints by projectId
         return db.Project

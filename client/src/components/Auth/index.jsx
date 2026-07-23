@@ -5,7 +5,7 @@ const Auth = () => {
     <div className="auth-container">
       <a
         href={
-          process.env.NODE_ENV === "production"
+          import.meta.env.NODE_ENV === "production"
             ? "/auth/github"
             : "http://localhost:3001/auth/github"
         }

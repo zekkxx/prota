@@ -1,7 +1,9 @@
-var router = require("express").Router();
+import {Router} from "express";
+
+const router = Router();
 
 router.get("/user", (req, res) => {
-    req.user ? res.json(req.user) : res.json({ error: true });
-  });
+  req.user ? res.json(req.user) : res.json({ error: true });
+});
 
-  module.exports = router;
+export default router;

@@ -1,5 +1,7 @@
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+import Task from "./task.js";
+import mongoose from "mongoose";
+
+const { Schema, model } = mongoose;
 
 var SprintSchema = new Schema({
     name: {
@@ -26,12 +28,11 @@ var SprintSchema = new Schema({
     }]
 });
 
-var Task = require('./task');
 SprintSchema.post('remove', document => {
     Task.find({sprint_ref: document._id}).then(tasks => {
         tasks.map(task => task.remove());
     }).catch(err => err);
 });
 
-const Sprint = mongoose.model("Sprint", SprintSchema);
-module.exports = Sprint;
+const Sprint = model("Sprint", SprintSchema);
+export default Sprint;

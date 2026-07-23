@@ -1,32 +1,40 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
+import APIRoutes from "./routes/apiRoutes.js";
+import AuthRoutes from "./routes/authRoutes.js";
+import CookieParser from "cookie-parser";
+import Session from "express-session";
+import { Strategy } from "passport-github2";
+import UtilRoutes from "./routes/utilRoutes.js";
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+import mongoose from "mongoose";
+import passport from "passport";
+import path from "path";
+import userController from "./controllers/userController.js";
+
+dotenv.config();
+
 const PORT = process.env.PORT || 3001;
 const app = express();
-const passport = require("passport");
-const mongoose = require("mongoose");
-const userController = require('./controllers/userController');
+var user = {};
 
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: 'http://localhost:4173', credentials: true }));
 
 //connect to MongodDB
 const MONGODB_URI = process.env.MONGODB_URI
-  || "mongodb://localhost/sitedb";
+  || "mongodb://localhost/protadb";
 mongoose
   .connect(MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
-let session = require("express-session")({
+let session = Session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 });
 
-const GitHubStrategy = require("passport-github2").Strategy;
-
-let strategy = new GitHubStrategy(
+let strategy = new Strategy(
   {
     clientID: process.env.NODE_ENV === "production" ? process.env.GITHUB_CLIENT_ID_PRODUCTION : process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.NODE_ENV === "production" ? process.env.GITHUB_CLIENT_SECRET_PRODUCTION : process.env.GITHUB_CLIENT_SECRET,
@@ -59,9 +67,9 @@ app.use(express.json());
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+  app.use(express.static("client/dist"));
 }
-app.use(require("cookie-parser")());
+app.use(CookieParser());
 
 app.use(session);
 app.use(passport.initialize());
@@ -69,9 +77,9 @@ app.use(passport.session());
 
 // Define API routes here
 
-app.use("/auth", require("./routes/authRoutes")(passport));
-app.use("/api", require("./routes/apiRoutes"));
-app.use("/util", require("./routes/utilRoutes"));
+app.use("/auth", AuthRoutes(passport));
+app.use("/api", APIRoutes);
+app.use("/util", UtilRoutes);
 
 // Send every other request to the React app
 // Define any API routes before this runs

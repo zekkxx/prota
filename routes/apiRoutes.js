@@ -1,5 +1,7 @@
-var router = require("express").Router();
-var Controller = require('../controllers');
+import Controller from "../controllers/index.js";
+import {Router} from "express";
+
+const router = Router();
 
 var checkLogin = (req, res, next) => {
     if(req.user){
@@ -266,4 +268,4 @@ router.delete("/:table/:id", checkLogin, (req, res) => {
         }))
 })
 
-module.exports = router;
+export default router;
