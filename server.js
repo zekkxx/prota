@@ -87,11 +87,12 @@ app.use("/util", UtilRoutes);
 
 // Send every other request to the React app
 // Define any API routes before this runs
+
 app.get(/./, (req, res) => {
   if (process.env.NODE_ENV !== "production") {
-    res.sendFile("./client/build/index.html");
-  } else {
     res.sendFile(path.join(__dirname, "./client/src/index.html"));
+  } else {
+    res.sendFile("./client/build/index.html");
   }
 });
 
