@@ -1,5 +1,7 @@
 import "./style.css";
 
+import path from "path";
+
 const Auth = () => {
   return (
     <div className="auth-container">
