@@ -20,7 +20,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 3001;
 const app = express();
-var user = {};
+// var user = {};
 
 // app.use(cors({ origin: 'http://localhost:4173', credentials: true }));
 app.use(cors({ origin: 'https://prota-2uja.onrender.com', credentials: true }));
@@ -47,7 +47,6 @@ let strategy = new Strategy(
   },
   (accessToken, refreshToken, profile, done) => done(null, profile)
 );
-console.log(strategy);
 
 //use Github OAuth2 strategy
 passport.use(strategy);

@@ -38,7 +38,7 @@ function App() {
       .then(status => {
         return setIsLoggedIn(status);
       })
-      .catch(err => console.log(err)) // todo: improve error handling
+      .catch(err => console.error(err)) // todo: improve error handling
       .finally(() => setLoginChecked(true));
   };
 
