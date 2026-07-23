@@ -15,7 +15,7 @@ export default (passport) => {
     (req, res) => {
       let redirectUrl;
       process.env.NODE_ENV === "production"
-        ? (redirectUrl = "/")
+        ? (redirectUrl = "https://prota-2uja.onrender.com/")
         : (redirectUrl = "http://localhost:4173/");
       res.redirect(redirectUrl);
     }
@@ -26,7 +26,7 @@ export default (passport) => {
       if (err) { return next(err); }
       let redirectUrl;
       process.env.NODE_ENV === "production"
-        ? (redirectUrl = "/")
+        ? (redirectUrl = "https://prota-2uja.onrender.com/")
         : (redirectUrl = "http://localhost:4173/");
       res.redirect(redirectUrl);
     });
