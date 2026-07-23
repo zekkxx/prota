@@ -1,49 +1,37 @@
-import APIRoutes from "./routes/apiRoutes.js";
-import AuthRoutes from "./routes/authRoutes.js";
 import CookieParser from "cookie-parser";
+import Routes from "./routes/index.js";
 import Session from "express-session";
 import { Strategy } from "passport-github2";
-import UtilRoutes from "./routes/utilRoutes.js";
+import connectDB from "./config/db.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import { fileURLToPath } from 'url';
-import mongoose from "mongoose";
 import passport from "passport";
 import path from "path";
 import userController from "./controllers/userController.js";
 
+dotenv.config();
+connectDB();
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-dotenv.config();
-
 const PORT = process.env.PORT || 3001;
 const app = express();
-// var user = {};
 
-// app.use(cors({ origin: 'http://localhost:4173', credentials: true }));
-app.use(cors({ origin: 'https://prota-2uja.onrender.com', credentials: true }));
+app.use(cors({ origin: process.env.CORS_ORIGIN || "http://localhost:3000", credentials: true }));
 
-//connect to MongodDB
-const MONGODB_URI = process.env.MONGODB_URI
-  || "mongodb://localhost/protadb";
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
-
-let session = Session({
+const session = Session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 });
 
-let strategy = new Strategy(
+const strategy = new Strategy(
   {
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: process.env.NODE_ENV === "production" ? "https://prota.onrender.com/auth/github/callback" : "http://localhost:3001/auth/github/callback"
+    callbackURL: path.join(process.env.SERVER_HOST || "http://localhost:3001", "/auth/github/callback")
   },
   (accessToken, refreshToken, profile, done) => done(null, profile)
 );
@@ -70,7 +58,7 @@ passport.deserializeUser((profile, done) => {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Serve up static assets (usually on heroku)
+// Serve up static assets
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/dist"));
 }
@@ -81,20 +69,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Define API routes here
-
-app.use("/auth", AuthRoutes(passport));
-app.use("/api", APIRoutes);
-app.use("/util", UtilRoutes);
+app.use("/auth", Routes.Auth(passport));
+app.use("/api", Routes.API);
+app.use("/util", Routes.Util);
 
 // Send every other request to the React app
 // Define any API routes before this runs
-
 app.get(/./, (req, res) => {
-  if (process.env.NODE_ENV !== "production") {
-    res.sendFile(path.join(__dirname, "./client/index.html"));
-  } else {
-    res.sendFile(path.join(__dirname, "./client/index.html"));
-  }
+  res.sendFile(path.join(__dirname, "./client/index.html"));
 });
 
 app.listen(PORT, () => {
