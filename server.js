@@ -85,9 +85,9 @@ app.use("/util", UtilRoutes);
 // Define any API routes before this runs
 app.get(/./, (req, res) => {
   if (process.env.NODE_ENV !== "production") {
-    res.sendFile(path.join(__dirname, "./client/build/index.html"));
+    res.sendFile(path.join(import.meta.dirname, "./client/build/index.html"));
   } else {
-    res.sendFile(path.join(__dirname, "./client/src/index.html"));
+    res.sendFile(path.join(import.meta.dirname, "./client/src/index.html"));
   }
 });
 
