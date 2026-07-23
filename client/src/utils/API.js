@@ -1,8 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = import.meta.env.NODE_ENV === "production" ? "/" : "http://localhost:3001/";
-console.log(import.meta.env.NODE_ENV);
-console.log(process.env.NODE_ENV);
+axios.defaults.baseURL = process.env.NODE_ENV === "production" ? "/" : "http://localhost:3001/";
 
 export default {
   getUser: async () =>

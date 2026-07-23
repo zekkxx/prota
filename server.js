@@ -22,7 +22,8 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 var user = {};
 
-app.use(cors({ origin: 'http://localhost:4173', credentials: true }));
+// app.use(cors({ origin: 'http://localhost:4173', credentials: true }));
+app.use(cors({ origin: 'https://prota-2uja.onrender.com', credentials: true }));
 
 //connect to MongodDB
 const MONGODB_URI = process.env.MONGODB_URI
