@@ -41,12 +41,13 @@ let session = Session({
 
 let strategy = new Strategy(
   {
-    clientID: process.env.NODE_ENV === "production" ? process.env.GITHUB_CLIENT_ID : process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.NODE_ENV === "production" ? process.env.GITHUB_CLIENT_SECRET : process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "/auth/github/callback"
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: process.env.NODE_ENV === "production" ? "https://prota.onrender.com/auth/github/callback" : "http://localhost:3001/auth/github/callback"
   },
   (accessToken, refreshToken, profile, done) => done(null, profile)
 );
+console.log(strategy);
 
 //use Github OAuth2 strategy
 passport.use(strategy);
