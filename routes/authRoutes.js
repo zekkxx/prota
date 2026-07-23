@@ -1,6 +1,7 @@
 import {Router} from "express";
 
 const router = Router();
+console.log(process.env.NODE_ENV, "authRoutes.js");
 
 export default (passport) => {
   router.get("/github", passport.authenticate("github"));

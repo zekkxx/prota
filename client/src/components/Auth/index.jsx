@@ -1,7 +1,6 @@
 import "./style.css";
 
 const Auth = () => {
-  console.log(process.env.NODE_ENV);
   return (
     <div className="auth-container">
       <a
