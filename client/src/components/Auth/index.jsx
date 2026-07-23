@@ -6,7 +6,7 @@ const Auth = () => {
       <a
         href={
           process.env.NODE_ENV === "production"
-            ? "/auth/github"
+            ? path.join(process.env.AXIOS_BASE_URL, "./auth/github")
             : "http://localhost:3001/auth/github"
         }
       >
