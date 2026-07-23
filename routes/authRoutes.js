@@ -13,7 +13,12 @@ export default (passport) => {
     "/github/callback",
     passport.authenticate("github"),
     (req, res) => {
-      req.login(req.user);
+      req.login(req.user, (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ error: "Login failed" });
+        }
+      });
       let redirectUrl;
       process.env.NODE_ENV === "production"
         ? (redirectUrl = "https://prota-2uja.onrender.com/")
