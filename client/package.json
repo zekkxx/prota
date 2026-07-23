@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Prota Client Application",
   "private": true,
-  "proxy": "https://prota.onrender.com",
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
