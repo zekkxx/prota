@@ -16,7 +16,7 @@ import addButtonImg from '../../assets/img/add.png';
 // }
 
 const TaskListSelector = ({ tasks, selectedTasks, trackStatus, handleTaskModal, handleChangeStatus }) => {
-  const [allTasks, setAllTasks] = useState(tasks);
+  const [allTasks, setAllTasks] = useState([]);
   const [selectTasks, setSelectTasks] = useState([]);
   const [status, setStatus] = useState(STATUS.OPEN);
 

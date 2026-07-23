@@ -23,7 +23,7 @@ const TaskList = ({ tasks, handleTaskModal, status, handleChangeStatus }) => {
   return (
     <>
       {
-        tasks.length ?
+        tasks && tasks.length ?
           tasks.map((task, i) => {
             return (
               <div

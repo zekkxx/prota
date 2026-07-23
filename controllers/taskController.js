@@ -67,10 +67,9 @@ module.exports = {
 
     deleteOneById: function (taskId) { //delete a task by req.params.taskId
         return db.Task
-            .findById({ _id: taskId })
+            .findByIdAndDelete({ _id: taskId })
             .then(results => {
                 removeTaskFromSprint(taskId, results.sprint_ref); //removes the task from parent sprint
-                return results.remove(); //removing the project (lowest level, no cascade)
             })
             .catch(err => err);
     }

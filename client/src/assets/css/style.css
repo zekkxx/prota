@@ -237,20 +237,20 @@ img.icon.add {
   min-width: 320px;
   background: #708090;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  margin: 25vh auto 0;
-  padding: 40px 80px;
+  margin: 5% auto 0;
+  padding: 5% 10%;
   border-radius: 5px;
   color: #eff1f4;
 }
 
 .modal-header {
-  padding-bottom: 30px;
+  padding-bottom: 2%;
 }
 
 .modal-input {
   display: flex;
   flex-direction: column;
-  padding-bottom: 12px;
+  padding-bottom: 2%;
 }
 
 .submit-btn {

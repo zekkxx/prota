@@ -162,7 +162,7 @@ export default class mockData {
     return result;
   };
   getUsersFuzzy = query => {
-    let results = this.users.filter(user => user.username.includes(query));
+    let results = this.users && this.users.filter(user => user.username.includes(query)) || [];
     if (results.length > 5) {
       results = results.slice(0, 4);
     }

@@ -86,7 +86,7 @@ const TaskModal = ({ handleModal, team, currentUser, expandedTask, handleTask, c
                         currentUser.username === member.username ?
                           <>
                             <img className="avatar-sm" src={member.avatar_url} alt="" />
-                            <span className="team-member-name">Myself</span>
+                            <span>Myself</span>
                           </>
                           :
                           <>
@@ -100,26 +100,7 @@ const TaskModal = ({ handleModal, team, currentUser, expandedTask, handleTask, c
               }
             </div>
           </div>
-
-          <div className="status-container">
-            <div className="status-header">
-              <h3>STATUS:</h3>
-              <div id="current-status">
-                {
-                  expandedTask && expandedTask.status === STATUS.OPEN ?
-                    'open'
-                    :
-                    expandedTask && expandedTask.status === STATUS.IN_PROGRESS ?
-                      'in progress'
-                      :
-                      expandedTask && expandedTask.status === STATUS.DONE ?
-                        'done'
-                        :
-                        null
-                }
-              </div>
-            </div>
-          </div>
+          
           <div className="submit-btn">
             <button
               className="add-button"

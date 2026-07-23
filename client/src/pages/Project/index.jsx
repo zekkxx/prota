@@ -1,6 +1,6 @@
+import { ALL, OPEN } from "../../helpers";
 import { useEffect, useState } from "react";
 
-import { ALL } from "../../helpers";
 import API from "../../utils/API";
 import AddSprintModal from "../../components/AddSprintModal";
 import NavBar from "../../components/NavBar";
@@ -17,7 +17,7 @@ const Project = () => {
   const [team, setTeam] = useState([]);
   const [project, setProject] = useState({});
   const [sprints, setSprints] = useState([]);
-  const [currentSprint, setCurrentSprint] = useState([]);
+  const [currentSprint, setCurrentSprint] = useState({});
   const [viewedSprint, setViewedSprint] = useState({});
   const [viewingSprint, setViewingSprint] = useState(false);
   const [addingSprint, setAddingSprint] = useState(false);
@@ -27,7 +27,7 @@ const Project = () => {
   // const [showTaskModal, setShowTaskModal] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [context, setContext] = useState("");
-  const [trackedStatus, setTrackedStatus] = useState("");
+  const [trackedStatus, setTrackedStatus] = useState(OPEN);
   const [blur, setBlur] = useState(false);
 
   // Fetches the user object and project object when component first renders
@@ -54,8 +54,8 @@ const Project = () => {
     if (project.unauthorized) return (window.location = "/"); // This will never fire unless backend adds unauthorized property to response
 
     const sprints = project.sprints.length ? [...project.sprints] : [];
-    const currentSprint = sprints.length ? [sprints[0]] : []; // sprints.filter(sprint => sprint.status === IN_PROGRESS)
-    const selectedTasks = currentSprint.length ? currentSprint[0].tasks.filter(task => task.status === trackedStatus) : []
+    const currentSprint = sprints.length ? sprints[0] : {}; // sprints.filter(sprint => sprint.status === IN_PROGRESS)
+    const selectedTasks = currentSprint && currentSprint.tasks ? currentSprint.tasks.filter(task => task.status === trackedStatus) : [];
     const team = project.contributors.concat(project.owners)
 
     setProject(project);
@@ -72,12 +72,12 @@ const Project = () => {
 
   // Runs when a sprint is selected in SprintList component
   const selectSprint = async (sprintId) => {
-    const tempCurrentSprint = sprints.filter(sprint => sprint._id === sprintId);
-    const tempSelectedTasks = currentSprint[0].tasks.filter(task =>
+    const tempCurrentSprint = sprints.filter(sprint => sprint._id === sprintId)[0];
+    const tempSelectedTasks = tempCurrentSprint && tempCurrentSprint.tasks ? tempCurrentSprint.tasks.filter(task =>
       trackedStatus === ALL ?
         task :
         task.status === trackedStatus
-    );
+    ) : [];
     
     setCurrentSprint(tempCurrentSprint);
     setSelectedTasks(tempSelectedTasks);
@@ -156,7 +156,7 @@ const Project = () => {
 
     setProject(updatedProject);
     setSprints(updatedSprints);
-    setCurrentSprint([newSprint]);
+    setCurrentSprint(newSprint);
     setSelectedTasks(newSprint.tasks.filter(task => trackedStatus === ALL ? task : task.status === trackedStatus));
     setAddingSprint(false);
     setBlur(false);
@@ -200,9 +200,9 @@ const Project = () => {
   // Delete a sprint
   const deleteSprint = async (sprintId) => {
     let deletedSprint = await API.deleteSprint(sprintId);
-    let newSprints = [...sprints];
-    setCurrentSprint([]);
-    setSprints(newSprints.filter(sprint => sprint._id !== deletedSprint._id));
+    let newSprints = [...sprints].filter(sprint => sprint._id !== sprintId);
+    setCurrentSprint({});
+    setSprints(newSprints);
     setSelectedTasks(null);
     setViewingSprint(false);
     setBlur(false);
@@ -216,19 +216,19 @@ const Project = () => {
       description: task.description,
       assignee: task.assignee,
       project_ref: project._id,
-      sprint_ref: currentSprint[0]._id
+      sprint_ref: currentSprint._id
     });
 
-    let newCurrentSprint = [...currentSprint];
-    newCurrentSprint[0].tasks.push(newTask);
+    let newCurrentSprint = currentSprint;
+    newCurrentSprint.tasks.push(newTask);
 
     let newSprints = sprints.map(sprint =>
-      sprint._id === newCurrentSprint[0]._id ?
-        newCurrentSprint[0] :
+      sprint._id === newCurrentSprint._id ?
+        newCurrentSprint :
         sprint
     );
 
-    let newSelectedTasks = newCurrentSprint[0].tasks.filter(task =>
+    let newSelectedTasks = newCurrentSprint.tasks.filter(task =>
       trackedStatus === ALL ?
         task :
         task.status === trackedStatus
@@ -249,8 +249,8 @@ const Project = () => {
       assignee: task.assignee
     })
 
-    let newCurrentSprint = [...currentSprint];
-    newCurrentSprint[0].tasks.forEach(task => {
+    let newCurrentSprint = currentSprint;
+    newCurrentSprint.tasks.forEach(task => {
       if (task._id === updatedTask._id) {
         task.name = updatedTask.name
         task.description = updatedTask.description
@@ -259,12 +259,12 @@ const Project = () => {
     });
 
     let newSprints = sprints.map(sprint =>
-      sprint._id === newCurrentSprint[0]._id ?
-        newCurrentSprint[0] :
+      sprint._id === newCurrentSprint._id ?
+        newCurrentSprint :
         sprint
     );
 
-    let newSelectedTasks = newCurrentSprint[0].tasks.filter(task =>
+    let newSelectedTasks = newCurrentSprint.tasks.filter(task =>
       trackedStatus === ALL ?
         task :
         task.status === trackedStatus
@@ -280,8 +280,8 @@ const Project = () => {
   const handleChangeStatus = async (taskId, status) => {
     let updatedTask = await API.updateTask(taskId, { status: status })
 
-    let newCurrentSprint = [...currentSprint];
-    newCurrentSprint[0].tasks.forEach(task => {
+    let newCurrentSprint = currentSprint;
+    newCurrentSprint.tasks.forEach(task => {
       if (task._id === updatedTask._id) {
         task.name = updatedTask.name
         task.description = updatedTask.description
@@ -291,12 +291,12 @@ const Project = () => {
     });
 
     let newSprints = sprints.map(sprint =>
-      sprint._id === newCurrentSprint[0]._id ?
-        newCurrentSprint[0] :
+      sprint._id === newCurrentSprint._id ?
+        newCurrentSprint :
         sprint
     );
 
-    let newSelectedTasks = newCurrentSprint[0].tasks.filter(task =>
+    let newSelectedTasks = newCurrentSprint.tasks.filter(task =>
       trackedStatus === ALL ?
         task :
         task.status === trackedStatus
@@ -328,17 +328,17 @@ const Project = () => {
   const deleteTask = async (taskId) => {
     let deletedTask = await API.deleteTask(taskId);
 
-    let newCurrentSprint = [...currentSprint];
-    let newTasks = newCurrentSprint[0].tasks.filter(task => task._id !== deletedTask._id);
-    newCurrentSprint[0].tasks = newTasks;
+    let newCurrentSprint = currentSprint;
+    let newTasks = newCurrentSprint.tasks.filter(task => task._id !== taskId);
+    newCurrentSprint.tasks = newTasks;
 
     let newSprints = sprints.map(sprint =>
-      sprint._id === newCurrentSprint[0]._id ?
-        newCurrentSprint[0] :
+      sprint._id === newCurrentSprint._id ?
+        newCurrentSprint :
         sprint
     );
 
-    let newSelectedTasks = newCurrentSprint[0].tasks.filter(task =>
+    let newSelectedTasks = newCurrentSprint.tasks.filter(task =>
       trackedStatus === ALL ?
         task :
         task.status === trackedStatus
@@ -381,15 +381,15 @@ const Project = () => {
                     selectSprint={sprintId => selectSprint(sprintId)}
                     openAddSprintModal={() => openAddSprintModal()}
                     openSprintModal={sprint => openSprintModal(sprint)}
-                    currentSprintId={currentSprint.length ? currentSprint[0]._id : null}
+                    currentSprintId={currentSprint && currentSprint._id ? currentSprint._id : null}
                     handleChangeStatus={handleChangeStatusSprint}
                   />
                 </div>
                 <div className="col half">
                   {
-                    currentSprint.length ?
+                    currentSprint ?
                       <TaskListSelector
-                        tasks={currentSprint[0].tasks}
+                        tasks={currentSprint && currentSprint.tasks ? currentSprint.tasks : []}
                         selectedTasks={selectedTasks}
                         trackStatus={status => trackStatus(status)}
                         handleTaskModal={openTaskModal}
