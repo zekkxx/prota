@@ -1,0 +1,35 @@
+import "./style.css";
+
+import deleteButtonImg from '../../../assets/img/delete-icon.jpg';
+
+// interface AddedUsersProps {
+//   users: User[];
+//   handleRemoveUser: (user: User) => void;
+//   currentUser: String;
+// }
+
+const AddedUsers = ({ users, handleRemoveUser, currentUser }) => {
+  return (
+    <div className="added-contributor-list-container">
+      {users && users.length > 0
+        ? users.map((user, i) => {
+            return (
+              <div className="added-contributor-container" key={i}>
+                <span>{user.username}</span>
+                {currentUser !== user.username ? (
+                  <img
+                    className="remove-contributor-button"
+                    alt="remove"
+                    src={deleteButtonImg}
+                    onClick={() => handleRemoveUser(user)}
+                  />
+                ) : null}
+              </div>
+            );
+          })
+        : null}
+    </div>
+  );
+}
+
+export default AddedUsers;

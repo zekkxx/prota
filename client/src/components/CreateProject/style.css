@@ -50,29 +50,29 @@
   color: red;
 }
 
-.modal-enter {
+.modal-animation-enter {
   opacity: 0.01;
 }
 
-.modal-enter.modal-enter-active {
+.modal-animation-enter-active {
   opacity: 1;
   transition: opacity 100ms ease-in;
 }
 
-.modal-leave {
+.modal-animation-exit {
   opacity: 1;
 }
 
-.modal-leave.modal-leave-active {
+.modal-animation-exit-active {
   opacity: 0.01;
   transition: opacity 100ms ease-in;
 }
 
-.modal-appear {
+.modal-animation-appear {
   opacity: 0.01;
 }
 
-.modal-appear.modal-appear-active {
+.modal-animation-appear-active {
   opacity: 1;
   transition: opacity 0.2s ease-in;
 }

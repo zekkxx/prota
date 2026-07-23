@@ -45,7 +45,7 @@ mongod
     * GITHUB_CLIENT_ID (From Github)
     * GITHUB_CLIENT_SECRET (From Github)
     * SESSION_SECRET (Your own creation)
-3. Then, in a new terminal, you will need to run `npm run start` from the root directory of your Prota clone.  
+3. Then, in a new terminal, run `npm run install` from the root directory of your Prota clone... MORE DETAIL NEEDED
 ```
 npm run start
 ```

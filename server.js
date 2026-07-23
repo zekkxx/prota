@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const path = require("path");
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -7,10 +8,15 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 const userController = require('./controllers/userController');
 
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+
 //connect to MongodDB
 const MONGODB_URI = process.env.MONGODB_URI
   || "mongodb://localhost/sitedb";
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose
+  .connect(MONGODB_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.log(err));
 
 let session = require("express-session")({
   secret: process.env.SESSION_SECRET,
@@ -69,8 +75,14 @@ app.use("/util", require("./routes/utilRoutes"));
 
 // Send every other request to the React app
 // Define any API routes before this runs
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+app.get(/./, (req, res) => {
+  if (process.env.NODE_ENV !== "production") {
+    res.sendFile(path.join(__dirname, "./client/build/index.html"));
+  } else {
+    res.sendFile(path.join(__dirname, "./client/src/index.html"));
+  }
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`🌎 ==> Server now on port ${PORT}!`);
+});
