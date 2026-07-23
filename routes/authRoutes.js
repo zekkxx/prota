@@ -11,10 +11,10 @@ export default (passport) => {
 
   router.get(
     "/github/callback",
-    passport.authenticate("github", (err, user) => {
-      if (!err && user) req.login(user);
-    }),
+    passport.authenticate("github"),
     (req, res) => {
+      console.log(req.user);
+      // req.login(req.user);
       let redirectUrl;
       process.env.NODE_ENV === "production"
         ? (redirectUrl = "https://prota-2uja.onrender.com/")
