@@ -36,8 +36,8 @@ let session = Session({
 
 let strategy = new Strategy(
   {
-    clientID: process.env.NODE_ENV === "production" ? process.env.GITHUB_CLIENT_ID_PRODUCTION : process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.NODE_ENV === "production" ? process.env.GITHUB_CLIENT_SECRET_PRODUCTION : process.env.GITHUB_CLIENT_SECRET,
+    clientID: process.env.NODE_ENV === "production" ? process.env.GITHUB_CLIENT_ID : process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.NODE_ENV === "production" ? process.env.GITHUB_CLIENT_SECRET : process.env.GITHUB_CLIENT_SECRET,
     callbackURL: process.env.NODE_ENV === "production" ? null : "/auth/github/callback"
   },
   (accessToken, refreshToken, profile, done) => done(null, profile)
