@@ -11,6 +11,11 @@ import mongoose from "mongoose";
 import passport from "passport";
 import path from "path";
 import userController from "./controllers/userController.js";
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -85,9 +90,9 @@ app.use("/util", UtilRoutes);
 // Define any API routes before this runs
 app.get(/./, (req, res) => {
   if (process.env.NODE_ENV !== "production") {
-    res.sendFile(path.join(import.meta.dirname, "./client/build/index.html"));
+    res.sendFile(path.join(__dirname, "./client/build/index.html"));
   } else {
-    res.sendFile(path.join(import.meta.dirname, "./client/src/index.html"));
+    res.sendFile(path.join(__dirname, "./client/src/index.html"));
   }
 });
 
