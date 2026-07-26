@@ -5,8 +5,8 @@ const Auth = () => {
     <div className="auth-container">
       <a
         href={
-          import.meta.env.NODE_ENV === "production"
-            ? "/auth/github"
+          process.env.NODE_ENV === "production"
+            ? "https://prota.onrender.com/auth/github"
             : "http://localhost:3001/auth/github"
         }
       >

@@ -1,6 +1,6 @@
 {
   "name": "prota",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Prota Application",
   "main": "server.js",
   "type": "module",
@@ -9,7 +9,7 @@
     "start:prod": "node server.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
-    "install": "cd client && npm install",
+    "install": "cd client && npm install --legacy-peer-deps",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build"
   },
@@ -27,7 +27,11 @@
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
-    "nodemon": "^3.1.10"
+    "constructs": "^10.7.1",
+    "esbuild": "^0.28.1",
+    "nodemon": "^3.1.10",
+    "tsx": "^4.23.1",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "cookie-parser": "^1.4.7",

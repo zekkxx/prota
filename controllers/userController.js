@@ -1,13 +1,13 @@
 import db from "../models/index.js";
 
 export default {
-  getAll: function() { //get all users
+  getAll: function() {
     return db.User.find({})
       .then(dbUsers => dbUsers)
       .catch(err => res.json(err));
   },
 
-  getOne: function(userId) { //get a user object by req.user
+  getOne: function(userId) {
     return db.User.findOne({ _id: userId })
       .populate({ path: "projects" })
       .then(dbUser => dbUser)
@@ -15,24 +15,23 @@ export default {
   },
 
   getFuzzy: function(userName) { //get a fuzzy selection of users by req.params
-    var regex = new RegExp(userName, "i"); //creates regex equivalent to /username/i where username is a variable
+    const regex = new RegExp(userName, "i"); //creates regex equivalent to /username/i where username is a variable
     return db.User.find({ username: regex })
       .limit(5)
       .then(result => result)
       .catch(err => err);
   },
 
-    invite: function(userName) { //Create a new user if does not exist
+    invite: function(userName) {
         return db.User
             .find({username: userName})
-            .then(dbUser => { //returns an array of user objects
+            .then(dbUser => {
                 if(dbUser.length > 0){
-                    throw "User Exists";
+                    throw new Error("User Exists");
                 } else {
                     return this.create({username: userName});
                 }
             }).catch(err => err);
-        //Catch is end of return db.User section
     },
 
     create: function(userBody) { //create a new user
@@ -41,24 +40,24 @@ export default {
             .catch(err => err);
     },
 
-    update: function(userBody) { //update a user
+    update: function(userBody) {
         return db.User.findOneAndUpdate(
-            {username: userBody.username}, //find a user by userId
-            userBody, //and then update with user data
-            {new: true, useFindAndModify: false} //return new user
+            {username: userBody.username}, 
+            userBody,
+            {new: true, useFindAndModify: false}
         ).populate({path: "projects"})
+        .catch(err => err);
     },
 
-    createOrUpdate: function(user) { //If new user, create, else update user
+    createOrUpdate: function(user) {
         return db.User
             .find({username: user.username})
-            .then(dbUser => { //returns an array of user objects
+            .then(dbUser => {
                 if(dbUser.length > 0){
                     return this.update(user);
                 } else {
                     return this.create(user);
                 }
             }).catch(err => err);
-        //Catch is end of return db.User section
     }
 }

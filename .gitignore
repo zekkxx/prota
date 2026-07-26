@@ -4,3 +4,8 @@ node_modules
 .vscode/
 .eslintcache
 dist/
+
+# amplify
+.amplify
+amplify_outputs*
+amplifyconfiguration*
