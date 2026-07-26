@@ -26,7 +26,12 @@ if (process.env.CORS_ORIGIN) {
 const session = Session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    secure: true,       // Required for SameSite=None
+    sameSite: 'none',   // Allows cross-site requests
+    maxAge: 1000 * 60 * 60 * 24
+  }
 });
 
 const strategy = new Strategy(
