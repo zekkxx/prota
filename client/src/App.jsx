@@ -37,10 +37,9 @@ function App() {
       (async () => {
         if (!user) {
           let tempUser = await API.getUser()
-          if (!tempUser) {
-            return;
+          if (tempUser) {
+            setUser(tempUser);
           }
-          setUser(tempUser);
           setUserLoading(false);
         }
       })();
