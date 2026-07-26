@@ -19,7 +19,9 @@ const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-app.use(cors({ origin: process.env.CORS_ORIGIN || "http://localhost:3000", credentials: true }));
+if (process.env.CORS_ORIGIN) {
+  app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
+}
 
 const session = Session({
   secret: process.env.SESSION_SECRET,
@@ -31,7 +33,7 @@ const strategy = new Strategy(
   {
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: path.join(process.env.SERVER_HOST || "http://localhost:3001", "/auth/github/callback")
+    callbackURL: process.env.GITHUB_CALLBACK_URL
   },
   (accessToken, refreshToken, profile, done) => done(null, profile)
 );
@@ -43,7 +45,7 @@ passport.serializeUser((user, done) => done(null, user));
 
 passport.deserializeUser((profile, done) => {
   if (!profile) done(null, {});
-  user = {
+  const user = {
     username: profile.username,
     avatar_url: profile._json.avatar_url, //profile.photos[0].value, 
     display_name: profile.displayName,

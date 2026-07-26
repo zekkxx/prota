@@ -13,10 +13,7 @@ export default (passport) => {
     "/github/callback",
     passport.authenticate("github"),
     (req, res) => {
-        let redirectUrl;
-        process.env.NODE_ENV === "production"
-          ? (redirectUrl = "https://prota-2uja.onrender.com/")
-          : (redirectUrl = "http://localhost:4173/");
+        let redirectUrl = process.env.FRONTEND_HOST;
         res.redirect(redirectUrl);
     }
   );
@@ -34,10 +31,7 @@ export default (passport) => {
   router.delete("/logout", (req, res) => {
     req.logout((err) => {
       if (err) { return next(err); }
-      let redirectUrl;
-      process.env.NODE_ENV === "production"
-        ? (redirectUrl = "https://prota-2uja.onrender.com/")
-        : (redirectUrl = "http://localhost:4173/");
+      let redirectUrl = process.env.FRONTEND_HOST
       res.redirect(redirectUrl);
     });
   });

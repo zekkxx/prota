@@ -13,6 +13,9 @@ const checkLogin = (req, res, next) => {
 
 //GET ROUTES:
 router.get("/user", (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).json({ error: { message: "User not authenticated" } });
+    }
     Controller.User.getOne(req.user._id)
         .then(result => res.json(result))
         .catch(err => res.json(

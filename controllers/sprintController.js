@@ -22,24 +22,24 @@ const removeSprintFromProject = async (sprintId, projectId) => {
 
 export default {
 
-    getAllByProject: function (projectId) { 
+    getAllByProject: async function (projectId) { 
         return db.Project
             .findOne({ _id: projectId }).populate({ path: 'sprints', populate: { path: 'tasks' } }) 
             .then(result => result.sprints) 
             .catch(err => err);
     },
 
-    create: function (sprintBody) { 
+    create: async function (sprintBody) { 
         return db.Sprint
             .create(sprintBody)
-            .then(results => { 
-                await assignSprintToProject(results._id, sprintBody.project_ref); 
+            .then(async (results) => { 
+                await assignSprintToProject(results._id, sprintBody.project_ref);
                 return results; 
             })
             .catch(err => err);
     },
 
-    updateOneById: function (sprintId, sprint) { 
+    updateOneById: async function (sprintId, sprint) { 
         return db.Sprint
             .findByIdAndUpdate(
                 sprintId,
@@ -50,12 +50,12 @@ export default {
             .catch(err => err);
     },
 
-    deleteOneById: function (sprintId) { 
+    deleteOneById: async function (sprintId) { 
         return db.Sprint
             .findById({ _id: sprintId }).populate({ path: "tasks" }) 
-            .then(results => {
-                await removeSprintFromProject(sprintId, results.project_ref) 
-                return results.remove() 
+            .then(async (results) => {
+                await removeSprintFromProject(sprintId, results.project_ref);
+                return results.remove();
             })
             .catch(err => err);
     }

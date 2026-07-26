@@ -2,8 +2,8 @@
 A project management tool for GitHub developers - invite collaborators, develop projects, view sprints, and take on tasks in an agile-inspired service. 
 
 **Created**: `2019 June 09`
-Deployed at: https://prota.herokuapp.com/  
-Repository: https://github.com/zekkxx/prota  
+Deployed at: https://prota-2uja.onrender.com/  
+Repository: https://github.com/zekkxx/prota
 
 # Development:
 ## Project Team:
@@ -53,15 +53,15 @@ npm run start
 # Application Preview
 In order to use this application, you will need to visit the deploy link referenced above and have a GitHub user account. If you don't have one, you'll need to create one. There is currently no independent login functionality associated with the application.
 
-<img src='https://github.com/adj-dev/final-project/blob/master/client/public/assets/img/Prota.png?raw=true' width=600 />  
+<img src='https://github.com/zekkxx/prota/blob/main/client/public/assets/img/Prota.png?raw=true' width=600 />  
 
 **Splash Page**: Has information regarding the development team and features of the application. It also features a login button that utiliizes _Passport_ with a Github authentication strategy to log the user into our application.
 
-<img src='https://github.com/adj-dev/final-project/blob/master/client/public/assets/img/projects-tasks.png?raw=true' width=600 />  
+<img src='https://github.com/zekkxx/prota/blob/main/client/public/assets/img/projects-tasks.png?raw=true' width=600 />  
 
 **Profile Page**: This page will allow the user to see all of their active projects in the lefthand column, and all tasks assigned to them in the right. They can filter through their open tasks and even adjust the status of the tasks under their name from this page. They can also create a project by pressing the '+' button next to the project title. By selecting a project they will be moved into the Tasks/Sprints page.
 
-<img src='https://github.com/adj-dev/final-project/blob/master/client/public/assets/img/sprints-tasks.png?raw=true' width=600 />  
+<img src='https://github.com/zekkxx/prota/blob/main/client/public/assets/img/sprints-tasks.png?raw=true' width=600 />  
 
 **Project Page**: All of a project's sprints are shown in the left-hand column. Selecting one will open the tasks assigned to the sprint in the righthand column. You can also edit a Sprint, and change the sprint's status from this menu. On the right hand side are the sprint's tasks. You can edit these tasks by clicking on them, and adjust the status from the main window. Similar to the projects page, you can create a new sprint or task by clicking the '+' button next to the title.
 
