@@ -28,7 +28,8 @@ app.set('trust proxy', 1);
 const session = Session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
+  proxy: true,
   cookie: {
     secure: true,       // Required for SameSite=None
     sameSite: 'none',   // Allows cross-site requests
