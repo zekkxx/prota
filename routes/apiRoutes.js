@@ -13,6 +13,7 @@ const checkLogin = (req, res, next) => {
 
 //GET ROUTES:
 router.get("/user", (req, res) => {
+    console.log(req.user);
     if (!req.user || !req.user._id) {
         return res.status(401).json({ error: { message: "User not authenticated" } });
     }
