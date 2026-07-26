@@ -7,6 +7,7 @@ import API from "./utils/API";
 import Landing from "./pages/Landing";
 import Profile from "./pages/Profile";
 import Project from "./pages/Project";
+import UserContext from './contexts/UserContext';
 import WelcomeRedirect from './components/WelcomeRedirect';
 import smoothscroll from 'smoothscroll-polyfill';
 
@@ -15,17 +16,16 @@ import smoothscroll from 'smoothscroll-polyfill';
 smoothscroll.polyfill();
 
 function App() {
-  const [loginChecked, setLoginChecked] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+  const [user, setUser] = useState(undefined);
+  const [userLoading, setUserLoading] = useState(true);
   const router = createBrowserRouter([
     {
       path: "/",
-      element: (isLoggedIn ? <Profile /> : <WelcomeRedirect />)
+      element: (user ? <Profile /> : <WelcomeRedirect />)
     },
     {
       path: "/project/:id",
-      element: (isLoggedIn ? <Project /> : <WelcomeRedirect />)
+      element: (user ? <Project /> : <WelcomeRedirect />)
     },
     {
       path: "/welcome",
@@ -33,20 +33,28 @@ function App() {
     }
   ]);
 
-  const getLoginStatus = () => {
-    API.isLoggedIn()
-      .then(status => {
-        return setIsLoggedIn(status);
-      })
-      .catch(err => console.error(err)) // todo: improve error handling
-      .finally(() => setLoginChecked(true));
-  };
-
   useEffect(() => {
-    getLoginStatus()
-  }, []);
+      (async () => {
+        if (!user) {
+          let tempUser = await API.getUser()
+          if (!tempUser) {
+            return;
+          }
+          setUser(tempUser);
+          setUserLoading(false);
+        }
+      })();
+    }, [user]);
 
-  return loginChecked ? <RouterProvider router={router} /> : null;
+  const userContext = { user: user, setUser: setUser };
+
+  return (
+    userLoading ? <div>Loading...</div> : (
+      <UserContext.Provider value={userContext}>
+        <RouterProvider router={router} />
+      </UserContext.Provider>
+    )
+  );
 }
 
 export default App;

@@ -3,7 +3,7 @@ import {Router} from "express";
 
 const router = Router();
 
-var checkLogin = (req, res, next) => {
+const checkLogin = (req, res, next) => {
     if(req.user){
       next();
     } else {
@@ -12,9 +12,10 @@ var checkLogin = (req, res, next) => {
   };
 
 //GET ROUTES:
-
-//Get all User Data for logged in user**
 router.get("/user", (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).json({ error: { message: "User not authenticated" } });
+    }
     Controller.User.getOne(req.user._id)
         .then(result => res.json(result))
         .catch(err => res.json(
@@ -24,7 +25,6 @@ router.get("/user", (req, res) => {
             }));
 });
 
-//Get all User Data for given user [Util route, remove upon deploy]
 router.get("/user/:userId", checkLogin, (req, res) => {
     Controller.User.getOne(req.params.userId)
         .then(result => res.json(result))
@@ -46,7 +46,6 @@ router.get("/user/:userName/fuzzy", checkLogin, (req, res) => {
             }));
 });
 
-//Get project data from db by user*
 router.get("/projects", checkLogin, (req, res) => {
     Controller.Project.getAllByUser(req.user._id)
         .then(results => res.json(results))
@@ -67,7 +66,6 @@ router.get("/projects/user/:userId", checkLogin, (req, res) => {
             }));
 });
 
-//Get project data from db by project*
 router.get("/project/:projectId", checkLogin, (req, res) => {
     Controller.Project.getOneById(req.params.projectId)
         .then(result => { res.json(result) })
@@ -78,7 +76,6 @@ router.get("/project/:projectId", checkLogin, (req, res) => {
             }));
 });
 
-//Get sprint data from db by project**
 router.get("/sprints/:projectId", checkLogin, (req, res) => {
     Controller.Sprint
         .getAllByProject(req.params.projectId)
@@ -90,7 +87,6 @@ router.get("/sprints/:projectId", checkLogin, (req, res) => {
             }));
 });
 
-//Get task data from db by project**(untested)
 router.get("/tasks/project/:projectId", checkLogin, (req, res) => {
     Controller.Task
         .getAllByProject(req.params.projectId)
@@ -102,7 +98,6 @@ router.get("/tasks/project/:projectId", checkLogin, (req, res) => {
             }));
 });
 
-//Get task data from db by sprint**
 router.get("/tasks/sprint/:sprintId", checkLogin, (req, res) => {
     Controller.Task
         .getAllBySprint(req.params.sprintId)
@@ -114,7 +109,6 @@ router.get("/tasks/sprint/:sprintId", checkLogin, (req, res) => {
             }));
 });
 
-//Get task data from db by user *
 router.get("/tasks/user/:userId", checkLogin, (req, res) => {
     Controller.Task
         .getAllByUser(req.params.userId)
@@ -127,8 +121,6 @@ router.get("/tasks/user/:userId", checkLogin, (req, res) => {
 });
 
 //POST ROUTES:
-
-//Create new user
 router.post("/users/:userName", checkLogin, (req, res) => {
     Controller.User.invite(req.params.userName)
         .then(results => res.json(results))
@@ -139,7 +131,6 @@ router.post("/users/:userName", checkLogin, (req, res) => {
             }));
 });
 
-//Create new project**
 router.post("/projects", checkLogin, (req, res) => {
     Controller.Project.create(req.body)
         .then(results => res.json(results))
@@ -150,7 +141,6 @@ router.post("/projects", checkLogin, (req, res) => {
             }));
 });
 
-//Create new sprint**
 router.post("/sprints", checkLogin, (req, res) => {
     Controller.Sprint
         .create(req.body)
@@ -162,7 +152,6 @@ router.post("/sprints", checkLogin, (req, res) => {
             }));
 });
 
-//Create new task**
 router.post("/tasks", checkLogin, (req, res) => {
     Controller.Task
         .create(req.body)
@@ -175,8 +164,6 @@ router.post("/tasks", checkLogin, (req, res) => {
 });
 
 //PUT ROUTES
-
-//Edit a project**
 router.put("/projects/:projectId", checkLogin, (req, res) => {
     Controller.Project
         .updateOneById(req.params.projectId, req.body)
@@ -228,7 +215,6 @@ router.put("/projects/:projectId/removeOwner/:userId", checkLogin, (req, res) =>
             }));
 });
 
-//Edit a sprint**
 router.put("/sprints/:sprintId", checkLogin, (req, res) => {
     Controller.Sprint
         .updateOneById(req.params.sprintId, req.body)
@@ -240,7 +226,6 @@ router.put("/sprints/:sprintId", checkLogin, (req, res) => {
             }));
 });
 
-//Edit a task**
 router.put("/tasks/:taskId", checkLogin, (req, res) => {
     Controller.Task
         .updateOneById(req.params.taskId, req.body)
@@ -262,7 +247,7 @@ router.delete("/:table/:id", checkLogin, (req, res) => {
         .catch(err => res.json({
             error:
                 {
-                    message: `Couldn't Delete ${table}`,
+                    message: `Couldn't delete from ${table}`,
                     value: err
                 }
         }))
