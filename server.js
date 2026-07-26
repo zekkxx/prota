@@ -23,6 +23,8 @@ if (process.env.CORS_ORIGIN) {
   app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
 }
 
+app.set('trust proxy', 1);
+
 const session = Session({
   secret: process.env.SESSION_SECRET,
   resave: false,
